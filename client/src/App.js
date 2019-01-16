@@ -4,11 +4,12 @@ import './App.css';
 
 import ReactTable from 'react-table';
 
+import { CSVLink } from 'react-csv';
+
 import { setParams } from './utils';
 
 import { headers, columns } from './settings';
 
-import { CSVLink } from 'react-csv';
 
 class App extends Component {
   state = {
@@ -88,16 +89,25 @@ class App extends Component {
       <div className="App">
         <div className="wrapper">
           <form onSubmit={this.handleSubmit}>
-            <p>
-              <strong>Search By Player</strong>
-            </p>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => this.handleChange(e)}
-            />
-            <button type="submit">Search</button>
-            <button disabled={query === ''} onClick={this.resetTable}>Reset</button>
+            <div class="ui action input">
+              <input
+                type="text"
+                value={searchQuery}
+                placeholder="Search By Player"
+                onChange={(e) => this.handleChange(e)}
+              />
+              <button
+                type="submit"
+                className="ui button">
+                Search
+              </button>
+              <button
+                className="ui button"
+                disabled={query === ''}
+                onClick={this.resetTable}>
+                Reset
+              </button>
+            </div>
           </form>
           {renderedData.length !== 0 ? CSV : <p>No CSV available.</p>}
         </div>

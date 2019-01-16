@@ -1,7 +1,10 @@
+/* Any !important rule is used to override any semantic-ui styles that I don't need/like */
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif !important;
+  font-size: 16px !important;
 }
 
 #root {
@@ -20,6 +23,10 @@ form {
   margin: 16px 0;
 }
 
-p {
-  margin: 0 16px 0 0;
+a:hover {
+  text-decoration: underline !important;
+}
+
+.ui.button + .ui.button {
+  margin: 0 8px !important;
 }
