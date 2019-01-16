@@ -1,3 +1,4 @@
+/** Get URL params */
 const getParams = (location) => {
   const searchParams = new URLSearchParams(location.search);
   return {

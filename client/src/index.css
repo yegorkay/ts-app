@@ -1,10 +1,25 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: sans-serif !important;
 }
 
 #root {
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  margin: 16px 0;
+}
+
+p {
+  margin: 0 16px 0 0;
 }
