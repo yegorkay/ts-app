@@ -16,13 +16,13 @@ const columns = [
     Header: 'Total Rushing Yards',
     id: 'Yds',
     accessor: (row) => extractNumber(row.Yds),
-    Cell: (row) => row.original.Yds,
+    Cell: (row) => row.original.Yds
   },
   {
     Header: 'Longest Rush (T = Touchdown Occurred)',
     id: 'Lng',
     accessor: (row) => extractNumber(row.Lng),
-    Cell: (row) => row.original.Lng,
+    Cell: (row) => row.original.Lng
   },
   {
     Header: 'Total Rushing Touchdowns',
