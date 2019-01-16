@@ -18,13 +18,15 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.callApi()
-      .then(({ data }) => this.setState({ data, loading: false }))
+    const { query } = this.props;
+    this.fetchPlayers(query)
+      .then(({ data }) => this.setState({ data, loading: false, searchQuery: query }))
       .catch((err) => console.log(err));
   }
 
-  callApi = async () => {
-    const response = await fetch('/api/players');
+  fetchPlayers = async (param = '') => {
+    const query = param === '' ? '' : `?query=${param}`;
+    const response = await fetch(`/api/players${query}`);
     const json = await response.json();
 
     if (response.status !== 200) throw Error(json.message);
@@ -32,27 +34,44 @@ class App extends Component {
     return json;
   };
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
+
     const { history } = this.props;
-    const url = setParams({ query: this.state.searchQuery });
-    this.state.searchQuery !== '' ? history.push(`?${url}`) : history.push('/');
+    const { searchQuery } = this.state;
+
+    // Updating the url with the relevant query
+    const url = setParams({ query: searchQuery });
+    searchQuery !== '' ? history.push(`?${url}`) : history.push('/');
+    this.setState({ loading: true });
+
+    this.fetchPlayers(searchQuery)
+      .then(({ data }) => this.setState({ data, loading: false }))
+      .catch((err) => console.log(err));
+
   };
 
   handleChange = (e) => {
     this.setState({ searchQuery: e.target.value });
   };
 
+  resetTable = () => {
+    this.setState({ searchQuery: '', loading: true })
+  }
+
   getCSV = () => {
-    // sorted data state
+    // sorted table data state
     const data = this.reactTable.getResolvedState().sortedData;
     this.setState({ data });
   };
 
+
   render() {
     const { data, loading, searchQuery } = this.state;
     const { query } = this.props;
+
     const renderedData = !loading ? data : [];
+    const noDataText = loading ? "" : "No results found. 😞";
 
     const CSV = (
       <CSVLink
@@ -67,24 +86,28 @@ class App extends Component {
 
     return (
       <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Search By Player: {query}</strong>
-          </p>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => this.handleChange(e)}
-          />
-          <button type="submit">Search</button>
-        </form>
-        {data ? CSV : <p>There is an error.</p>}
+        <div className="wrapper">
+          <form onSubmit={this.handleSubmit}>
+            <p>
+              <strong>Search By Player</strong>
+            </p>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => this.handleChange(e)}
+            />
+            <button type="submit">Search</button>
+            <button disabled={query === ''} onClick={this.resetTable}>Reset</button>
+          </form>
+          {renderedData.length !== 0 ? CSV : <p>No CSV available.</p>}
+        </div>
         <ReactTable
           columns={columns}
-          data={renderedData}
           loading={loading}
-          ref={(r) => (this.reactTable = r)}
+          data={renderedData}
+          noDataText={noDataText}
           className="-striped -highlight"
+          ref={(r) => (this.reactTable = r)}
         />
       </div>
     );
