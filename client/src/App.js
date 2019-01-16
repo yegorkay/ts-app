@@ -10,7 +10,6 @@ import { setParams } from './utils';
 
 import { headers, columns } from './settings';
 
-
 class App extends Component {
   state = {
     data: null,
@@ -21,7 +20,9 @@ class App extends Component {
   componentDidMount() {
     const { query } = this.props;
     this.fetchPlayers(query)
-      .then(({ data }) => this.setState({ data, loading: false, searchQuery: query }))
+      .then(({ data }) =>
+        this.setState({ data, loading: false, searchQuery: query })
+      )
       .catch((err) => console.log(err));
   }
 
@@ -49,7 +50,6 @@ class App extends Component {
     this.fetchPlayers(searchQuery)
       .then(({ data }) => this.setState({ data, loading: false }))
       .catch((err) => console.log(err));
-
   };
 
   handleChange = (e) => {
@@ -57,8 +57,8 @@ class App extends Component {
   };
 
   resetTable = () => {
-    this.setState({ searchQuery: '', loading: true })
-  }
+    this.setState({ searchQuery: '', loading: true });
+  };
 
   getCSV = () => {
     // sorted table data state
@@ -66,13 +66,12 @@ class App extends Component {
     this.setState({ data });
   };
 
-
   render() {
     const { data, loading, searchQuery } = this.state;
     const { query } = this.props;
 
     const renderedData = !loading ? data : [];
-    const noDataText = loading ? "" : "No results found. 😞";
+    const noDataText = loading ? '' : 'No results found. 😞';
 
     const CSV = (
       <CSVLink
@@ -96,15 +95,14 @@ class App extends Component {
                 placeholder="Search By Player"
                 onChange={(e) => this.handleChange(e)}
               />
-              <button
-                type="submit"
-                className="ui button">
+              <button type="submit" className="ui button">
                 Search
               </button>
               <button
                 className="ui button"
                 disabled={query === ''}
-                onClick={this.resetTable}>
+                onClick={this.resetTable}
+              >
                 Reset
               </button>
             </div>
