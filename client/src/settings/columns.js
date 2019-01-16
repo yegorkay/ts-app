@@ -1,4 +1,4 @@
-/** Used to extract the "T" representing a touchdown */
+/** Used to extract non-numerical characters */
 const extractNumber = (text) => {
   if (typeof text === 'string') {
     return parseFloat(text.replace(/[^0-9.]/g, ''));
@@ -14,7 +14,9 @@ const columns = [
   },
   {
     Header: 'Total Rushing Yards',
-    accessor: 'Yds'
+    id: 'Yds',
+    accessor: (row) => extractNumber(row.Yds),
+    Cell: (row) => row.original.Yds,
   },
   {
     Header: 'Longest Rush (T = Touchdown Occurred)',
