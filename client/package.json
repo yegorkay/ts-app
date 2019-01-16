@@ -1,6 +1,7 @@
 {
-  "name": "create-react-app-express",
-  "version": "0.1.0",
+  "name": "ts-challenge",
+  "version": "1.0.0",
+  "description": "theScore Interview Challenge",
   "license": "MIT",
   "dependencies": {
     "react": "16.7.0",

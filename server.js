@@ -22,7 +22,6 @@ const parsedData = JSON.parse(rushingJSON).sort((a, b) => {
 
 // API calls
 app.get('/api/players', (req, res) => {
-
   const { query } = req.query;
 
   let data = [];
@@ -37,17 +36,16 @@ app.get('/api/players', (req, res) => {
   }
 
   res.send({ data });
-
 });
 
-app.listen((port), () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // last resorts
-process.on("uncaughtException", (err) => {
+process.on('uncaughtException', (err) => {
   console.log(`Caught exception: ${err}`);
   process.exit(1);
 });
-process.on("unhandledRejection", (reason, p) => {
+process.on('unhandledRejection', (reason, p) => {
   console.log(`Unhandled Rejection at: Promise, ${p}, reason: ${reason}`);
   process.exit(1);
 });
