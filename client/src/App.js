@@ -12,7 +12,8 @@ import { headers, columns } from './settings';
 
 class App extends Component {
   state = {
-    data: null,
+    csv: [],
+    data: [],
     loading: true,
     searchQuery: ''
   };
@@ -42,7 +43,7 @@ class App extends Component {
     const { history } = this.props;
     const { searchQuery } = this.state;
 
-    // Updating the url with the relevant query
+    /** Updating the url with the relevant query */
     const url = setParams({ query: searchQuery });
     searchQuery !== '' ? history.push(`?${url}`) : history.push('/');
     this.setState({ loading: true });
@@ -61,24 +62,23 @@ class App extends Component {
   };
 
   getCSV = () => {
-    // sorted table data state
-    const data = this.reactTable.getResolvedState().sortedData;
-    this.setState({ data });
+    /** table data state becomes csv state */
+    const csv = this.reactTable.getResolvedState().sortedData;
+    this.setState({ csv });
   };
 
   render() {
-    const { data, loading, searchQuery } = this.state;
+    const { data, loading, searchQuery, csv } = this.state;
     const { query } = this.props;
 
-    const renderedData = !loading ? data : [];
     const noDataText = loading ? '' : 'No results found. 😞';
 
     const CSV = (
       <CSVLink
+        data={csv}
         headers={headers}
         onClick={this.getCSV}
         filename="nfl-rushing-data.csv"
-        data={renderedData}
       >
         Download as CSV
       </CSVLink>
@@ -88,7 +88,7 @@ class App extends Component {
       <div className="App">
         <div className="wrapper">
           <form onSubmit={this.handleSubmit}>
-            <div class="ui action input">
+            <div className="ui action input">
               <input
                 type="text"
                 value={searchQuery}
@@ -107,12 +107,12 @@ class App extends Component {
               </button>
             </div>
           </form>
-          {renderedData.length !== 0 ? CSV : <p>No CSV available.</p>}
+          {data.length !== 0 ? CSV : <p>No CSV available.</p>}
         </div>
         <ReactTable
+          data={data}
           columns={columns}
           loading={loading}
-          data={renderedData}
           noDataText={noDataText}
           className="-striped -highlight"
           ref={(r) => (this.reactTable = r)}
