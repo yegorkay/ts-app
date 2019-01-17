@@ -25,6 +25,6 @@ npm run dev
 ## Using the app
 
 - Use the search bar to search by player
-- Press `reset` if the data you retrieved isn't what you wanted or if no results are found
+- Press `reset` if the data you retrieved isn't what you wanted or if no results are found (or just search again)
 - Sort the table by clicking on the table headers
 - Click `Download as CSV` to find out this years Super Bowl winner (_you'll actually get the table you're viewing in CSV format. Surprise!_)
